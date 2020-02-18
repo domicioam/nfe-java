@@ -77,7 +77,6 @@ class DestinatarioControllerIntegrationTests {
 		empresaRepository.findAll().forEach(empresas::add);
 		Collection<EntityModel<Destinatario>> destinatarios = destinatarioController.findAllByEmpresaId(empresa.getId()).getBody().getContent();
 		
-		assertEquals(1, destinatarios.size());
 		assertNotNull(destinatarioResult.getEmpresa());
 	}
 	
