@@ -1,6 +1,5 @@
 package com.dgsystems.nfeservice;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -27,17 +26,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.dgsystems.nfeservice.cadastro.configuracao.Configuracao;
 import com.dgsystems.nfeservice.cadastro.controllers.ConfiguracaoController;
-import com.dgsystems.nfeservice.cadastro.empresa.Empresa;
-import com.dgsystems.nfeservice.cadastro.empresa.Endereco;
-import com.dgsystems.nfeservice.cadastro.empresa.RegimeTributario;
 import com.dgsystems.nfeservice.cadastro.repositories.ConfiguracaoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static org.mockito.ArgumentMatchers.any;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
