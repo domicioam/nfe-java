@@ -2,12 +2,14 @@ package com.dgsystems.nfeservice.integrationtests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -71,7 +73,7 @@ public class ProdutoControllerIntegrationTests {
 		impostos.add(new Icms(0, "60", 0));
 		impostos.add(new Pis(0, "04", Regime.Cumulativo));
 		
-		Produto produto = new Produto("Botijão de gás P13", "27111910", "UN", 61.5, impostos);
+		Produto produto = new Produto("Botijao de gas P13", "27111910", "UN", 61.5, impostos);
 		produto.setEmpresa(empresa);
 		
 		MvcResult result = mvc.perform(post("/empresa/" + empresa.getId() + "/produto").contentType(MediaType.APPLICATION_JSON)
@@ -80,14 +82,12 @@ public class ProdutoControllerIntegrationTests {
 				.andReturn();
 		
 		EntityModel<Produto> entity = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<EntityModel<Produto>>() {});
-				
-		List<Empresa> empresas = new ArrayList<Empresa>();
-		empresaRepository.findAll().forEach(empresas::add);
-		Collection<EntityModel<Produto>> produtos = produtoController.findAllByEmpresaId(empresa.getId()).getBody().getContent();
+		Iterable<Produto> produtosEmpresa = produtoRepository.findAllByEmpresaId(empresa.getId());
 		
-		assertEquals(1, empresas.size());
-		assertEquals(1, produtos.size());
-		assertNotNull(entity.getContent().getEmpresa());
+		boolean hasMatch = StreamSupport.stream(produtosEmpresa.spliterator(), false)
+						.anyMatch(entity.getContent()::equals);
+		
+		assertTrue(hasMatch);
 	}
 	
 	@BeforeAll
